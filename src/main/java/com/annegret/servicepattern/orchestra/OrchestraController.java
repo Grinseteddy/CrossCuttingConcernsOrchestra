@@ -7,23 +7,35 @@ import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.URL;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.bind.annotation.RequestParam;
 
+
 @RestController
 public class OrchestraController {
+
+    static Logger logger=LoggerFactory.getLogger(OrchestraController.class);
+
     @RequestMapping(method = RequestMethod.GET, value ="process")
     public String processed(@RequestParam("inputString") String inputString) throws IOException {
         return " process:"+ process(inputString);
     }
 
     private String process(String inputString) throws IOException {
+
+        logger.info("Start process: "+inputString);
+
         if (inputString.length()>=0) {
             try {
                 String mappedString = mapping(inputString);
+                logger.info("Mapped string: "+mappedString);
+
                 String filteredString = filter(mappedString);
+                logger.info("Filtered string: "+filteredString);
                 return filteredString;
             } catch (IOException e) {
                 e.printStackTrace();
