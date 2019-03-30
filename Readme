@@ -1,0 +1,26 @@
+#ToDo
+The project contains a logger which logs into a orchestra.log (see logback.xml and application.properties).
+We need a filebeat inside of the docker host which pumps the logging entries to a elasticsearch.
+The logging entries looks like
+{
+  "timestamp" : "2019-03-30T15:43:53.940Z",
+  "level" : "INFO",
+  "thread" : "http-nio-8081-exec-1",
+  "logger" : "com.annegret.servicepattern.orchestra.OrchestraController",
+  "message" : "Start process: ABCabc",
+  "context" : "default"
+}{
+  "timestamp" : "2019-03-30T15:43:54.089Z",
+  "level" : "INFO",
+  "thread" : "http-nio-8081-exec-1",
+  "logger" : "com.annegret.servicepattern.orchestra.OrchestraController",
+  "message" : "Mapped string: BBCbbc",
+  "context" : "default"
+}{
+  "timestamp" : "2019-03-30T15:43:54.269Z",
+  "level" : "INFO",
+  "thread" : "http-nio-8081-exec-1",
+  "logger" : "com.annegret.servicepattern.orchestra.OrchestraController",
+  "message" : "Filtered string: BBCbbc",
+  "context" : "default"
+}
