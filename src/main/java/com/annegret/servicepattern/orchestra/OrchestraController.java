@@ -14,10 +14,7 @@ import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
 import org.springframework.boot.configurationprocessor.json.JSONObject;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.HttpStatus;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RestController;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.server.ResponseStatusException;
 
 
@@ -35,8 +32,9 @@ public class OrchestraController {
     private String filterurl;
 
 
-    @RequestMapping(method = RequestMethod.GET, value ="process")
-    public String processed(@RequestParam("inputString") String inputString) throws IOException {
+    @GetMapping(value = "/process/{inputString}")
+    @ResponseBody
+    public String processed(@PathVariable("inputString") String inputString) throws IOException {
         return " process:"+ process(inputString);
     }
 
