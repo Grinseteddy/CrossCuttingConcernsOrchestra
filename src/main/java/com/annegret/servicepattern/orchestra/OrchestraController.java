@@ -58,7 +58,7 @@ public class OrchestraController {
     private String filter(String inputString) throws IOException {
         if (inputString.length() > 0) {
 
-            return callService("http://localhost:8083/filter", "inputString", inputString);
+            return callService("http://localhost:8084/filter", "inputString", inputString);
 
 
         }
