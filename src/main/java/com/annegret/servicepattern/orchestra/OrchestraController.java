@@ -63,10 +63,30 @@ public class OrchestraController {
     private String mapping(String inputString) throws IOException {
         if (inputString.length() > 0) {
 
-            //return callService("http://localhost:8082/mapping", "inputString", inputString);
-            //return callService(mapperurl, "inputString", inputString);
 
-            String urlParameter = mapperurl+inputString;
+            return callService(mapperurl, inputString);
+
+
+        }
+        return "";
+    }
+
+    private String filter(String inputString) throws IOException {
+        if (inputString.length() > 0) {
+
+
+            return callService(filterurl, inputString);
+
+
+        }
+        return "";
+
+    }
+
+    private String callService(String urlAsString, String parameter)  throws IOException {
+        try {
+
+            String urlParameter = urlAsString+parameter;
             URL url=new URL(urlParameter);
             HttpURLConnection conn= (HttpURLConnection) url.openConnection();
             conn.setRequestMethod("GET");
@@ -82,46 +102,8 @@ public class OrchestraController {
             //TODO think about timeouts
             conn.disconnect();
 
-
             return output;
 
-
-        }
-        return "";
-    }
-
-    private String filter(String inputString) throws IOException {
-        if (inputString.length() > 0) {
-
-            //return callService("http://localhost:8084/filter", "inputString", inputString);
-            return callService(filterurl, "inputString", inputString);
-
-
-        }
-        return "";
-
-    }
-
-    private String callService(String urlAsString, String key, String parameter)  throws IOException {
-        try {
-            String urlParameter = urlAsString+"?"+key+"="+parameter;
-            URL url=new URL(urlParameter);
-            HttpURLConnection conn= (HttpURLConnection) url.openConnection();
-            conn.setRequestMethod("GET");
-            if (conn.getResponseCode() != 200) {
-                return String.valueOf(conn.getResponseCode());
-                //use http response enum
-            }
-            BufferedReader br = new BufferedReader(new InputStreamReader(
-                    (conn.getInputStream())));
-
-            String output;
-
-            output = br.readLine();
-            //think about timeouts
-            conn.disconnect();
-
-            return output;
 
         } catch (MalformedURLException e) {
             e.printStackTrace();
