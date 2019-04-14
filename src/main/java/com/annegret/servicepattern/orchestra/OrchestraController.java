@@ -9,6 +9,9 @@ import java.net.URL;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
+import org.springframework.context.annotation.Configuration;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
@@ -16,9 +19,18 @@ import org.springframework.web.bind.annotation.RequestParam;
 
 
 @RestController
+@EnableAutoConfiguration
+@Configuration
 public class OrchestraController {
 
     static Logger logger=LoggerFactory.getLogger(OrchestraController.class);
+
+    @Value("${mapperurl}")
+    private String mapperurl;
+
+    @Value("${filterurl}")
+    private String filterurl;
+
 
     @RequestMapping(method = RequestMethod.GET, value ="process")
     public String processed(@RequestParam("inputString") String inputString) throws IOException {
@@ -48,7 +60,8 @@ public class OrchestraController {
     private String mapping(String inputString) throws IOException {
         if (inputString.length() > 0) {
 
-            return callService("http://localhost:8082/mapping", "inputString", inputString);
+            //return callService("http://localhost:8082/mapping", "inputString", inputString);
+            return callService(mapperurl, "inputString", inputString);
 
 
         }
@@ -58,7 +71,8 @@ public class OrchestraController {
     private String filter(String inputString) throws IOException {
         if (inputString.length() > 0) {
 
-            return callService("http://localhost:8084/filter", "inputString", inputString);
+            //return callService("http://localhost:8084/filter", "inputString", inputString);
+            return callService(filterurl, "inputString", inputString);
 
 
         }
