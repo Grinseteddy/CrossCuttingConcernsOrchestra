@@ -11,11 +11,14 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
+import org.springframework.boot.configurationprocessor.json.JSONObject;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.server.ResponseStatusException;
 
 
 @RestController
@@ -61,7 +64,26 @@ public class OrchestraController {
         if (inputString.length() > 0) {
 
             //return callService("http://localhost:8082/mapping", "inputString", inputString);
-            return callService(mapperurl, "inputString", inputString);
+            //return callService(mapperurl, "inputString", inputString);
+
+            String urlParameter = mapperurl+inputString;
+            URL url=new URL(urlParameter);
+            HttpURLConnection conn= (HttpURLConnection) url.openConnection();
+            conn.setRequestMethod("GET");
+            if (conn.getResponseCode() != 200) {
+                throw new ResponseStatusException(HttpStatus.NOT_FOUND, "According masterdata not found");
+            }
+            BufferedReader br = new BufferedReader(new InputStreamReader(
+                    (conn.getInputStream())));
+
+            String output;
+
+            output = br.readLine();
+            //TODO think about timeouts
+            conn.disconnect();
+
+
+            return output;
 
 
         }
