@@ -8,12 +8,6 @@ import java.util.logging.Logger;
 @SpringBootApplication
 public class OrchestraApplication {
 
-    static Logger log;
-
-    static {
-        log = Logger.getLogger(OrchestraApplication.class.getName());
-    }
-
     public static void main(String[] args) {
         SpringApplication.run(OrchestraApplication.class, args);
     }
